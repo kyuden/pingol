@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kyuden/pingol/command"
 	"github.com/urfave/cli"
 )
 
