@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/urfave/cli"
@@ -15,38 +16,14 @@ func main() {
 	app.Author = "kyuden"
 	app.Usage = "A simple CLI tool for finding your iPhone"
 
-	cli.AppHelpTemplate = `NAME:
-   {{.Name}} - {{.Usage}}
+	if len(os.Args) > 1 {
+		app.Action = func(c *cli.Context) error {
+			fmt.Println("Hello", c.Args()[0])
+			return nil
+		}
+	}
 
-USAGE:
-   {{.Name}} [iPhone model name]
-
-EXAMPLE:
-   # when iphone 5s
-   {{.Name}} 5s
-
-   # when iphone 6
-   {{.Name}} 6
-
-   # when iphone 6+
-   {{.Name}} 6.Plus
-
-VERSION:
-   {{.Version}}{{if or .Author .Email}}
-
-AUTHOR:{{if .Author}}
-  {{.Author}}{{if .Email}} - <{{.Email}}>{{end}}{{else}}
-  {{.Email}}{{end}}{{end}}
-
-OPTIONS:
-   --help, -h	show help
-   {{range .Flags}}{{.}}
-   {{end}}
-`
-
-	app.Flags = GlobalFlags
-	app.Commands = Commands
-	app.CommandNotFound = CommandNotFound
+	cli.AppHelpTemplate = AppHelpTemplate
 
 	app.Run(os.Args)
 }
